@@ -1,15 +1,19 @@
 var cell=document.getElementById("cell");
 var piezas=document.getElementById("piezas");
+var dialogo=document.getElementById("dialogo")
 var selectedPiece=null;
+
+document.onkeypress= keypress;
 crearTab();
 crearPiece();
 
-function crearCeldas(width,height){
+function crearCeldas(width,height,position){
 	
 	let cas = document.createElement("div");
 	cas.style.width=width;
 	cas.style.height=height;
 	cas.style.border="1px solid";
+	cas.dataset.position=position;
 	cas.onclick=clickcell;
 	return cas;
 }
@@ -26,6 +30,7 @@ function crearPie(width,height,piec){
 	piece.height=height;
 	piece.style.border="1px solid"
 	piece.src=piec.image;
+	piece.dataset.position=piec.position;
 	piece.onclick=clickPice;
 
 	//mandar la pieza a la celda
@@ -41,7 +46,7 @@ function crearTab(){
 	height=(height/ 4);
 
 	for(let i=0; i<16;i++){
-		let cas=crearCeldas(width,height);
+		let cas=crearCeldas(width,height,i);
 		addCas(cas);
 	}
 }
@@ -86,5 +91,45 @@ function clickcell(e){
 	}
 	else{
 		console.log("seleccione una pieza");
+	}
+}
+function keypress(ke){
+	if(ke.keyCode==101||ke.keyCode==69){
+		let result=evaluateBoard();
+		showDialogo(result);
+	}
+
+}
+function showDialogo(result){
+	var imgE=dialogo.children[0];
+	var textC=dialogo.children[1];
+	if(result){
+		imgE.src="img/ganas.jpg";
+		textC.innerText="Ganaste";
+	}
+	else{
+		imgE.src="img/perder.jpg";
+		textC.innerText="Perdiste";
+	}
+	dialogo.style.display="block";
+}
+function evaluateBoard(){
+	var cells =cell.children;
+	for(cel of cells){
+		let piecee=cel.children[0];
+		if(piecee.dataset.position!=cel.dataset.position){
+			return false;
+		}
+
+	}
+	return true;
+}
+function returnPieces(){
+	let cells =cell.children;
+	let cellPieces= piezas.children;
+	for(cell of cells){
+		let position=cell.dataset.position;
+		let piece=cell.children[0];
+		cellPieces[piece.dataset.position].appendChild(piece);
 	}
 }
