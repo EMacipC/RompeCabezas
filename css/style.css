@@ -26,12 +26,25 @@
 	background-color: blue;
 }
 #dialogo{
+	margin-top:15%;
+	margin-left:25%;
 	position: absolute;
 	width: 50%;
 	height: 40%;
-	background-color: white;
 	display: none;
+	border-radius: 10%;
+	
 }
-.dialog-show{
-	display: block;
+
+#text-contend{
+	font-size: 50px;
+	margin-left:25%;
+}
+#img-dialogo{
+	margin-left: 30%;
+	width: 50%;
+	height:70%;
+}
+#b{
+	margin-left: 40%;
 }
